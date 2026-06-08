@@ -1,4 +1,3 @@
 dependencies {
     implementation project(":elasticSearch-core")
-    implementation project(":elasticSearch-api")
 }

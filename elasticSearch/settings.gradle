@@ -1,3 +1,5 @@
 rootProject.name = 'elasticSearch'
 
+include 'elasticSearch-api'
+include 'elasticSearch-core'
 include 'elasticSearch-web'
