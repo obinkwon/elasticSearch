@@ -1,0 +1,13 @@
+services:
+  elasticsearch:
+    image: elasticsearch:8.19.16
+    container_name: elasticsearch
+
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+
+    ports:
+      - "9200:9200"
+
+    restart: unless-stopped
