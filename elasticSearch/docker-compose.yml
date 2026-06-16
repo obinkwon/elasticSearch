@@ -9,5 +9,12 @@ services:
 
     ports:
       - "9200:9200"
+      - "9300:9300"
+
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
 
     restart: unless-stopped
+volumes:
+  elastic_data:
+

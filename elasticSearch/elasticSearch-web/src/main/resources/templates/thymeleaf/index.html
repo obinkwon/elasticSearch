@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>API Test</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+        }
+
+        input {
+            width: 300px;
+            padding: 5px;
+        }
+
+        button {
+            padding: 8px 15px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>API 테스트</h2>
+
+<div>
+    <input type="text" id="url" value="/api/search/autocomplete">
+    <button onclick="callApi()">GET 호출</button>
+</div>
+
+<br>
+
+<textarea id="result"></textarea>
+
+<script>
+    async function callApi() {
+        const url = document.getElementById("url").value;
+
+        try {
+            const response = await fetch(url);
+
+            const text = await response.text();
+
+            document.getElementById("result").value =
+                `STATUS : ${response.status}\n\n${text}`;
+        } catch (e) {
+            document.getElementById("result").value = e;
+        }
+    }
+</script>
+
+</body>
+</html>

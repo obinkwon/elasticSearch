@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
-@SpringBootApplication(scanBasePackages = {"elasticSearch.web"})
+@SpringBootApplication
 public class ElasticSearchWebMainApplication {
 
 	public static void main(String[] args) {
