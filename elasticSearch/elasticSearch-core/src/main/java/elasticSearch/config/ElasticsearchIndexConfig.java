@@ -12,21 +12,16 @@ import org.springframework.data.elasticsearch.core.document.Document;
 @RequiredArgsConstructor
 public class ElasticsearchIndexConfig {
 
-    private final ElasticsearchOperations operations;
+    private final ElasticsearchOperations elasticsearchOperations;
 
     @PostConstruct
     public void createIndex() {
 
-        IndexOperations indexOps =
-                operations.indexOps(ProductDocument.class);
+        IndexOperations indexOps = elasticsearchOperations.indexOps(ProductDocument.class);
 
         if (!indexOps.exists()) {
-
             indexOps.create();
-
-            Document mapping =
-                    indexOps.createMapping(ProductDocument.class);
-
+            Document mapping = indexOps.createMapping(ProductDocument.class);
             indexOps.putMapping(mapping);
         }
     }

@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductSearchService {
 
-    private final ProductSearchRepository repository;
+    private final ProductSearchRepository productSearchRepository;
     private final ElasticsearchOperations elasticsearchOperations;
 
     public List<String> autocomplete(String keyword) {
@@ -24,7 +24,7 @@ public class ProductSearchService {
         NativeQuery query = NativeQuery.builder()
                 .withQuery(Query.of(q -> q
                         .match(m -> m
-                                .field("name.autocomplete")
+                                .field("name")
                                 .query(keyword)
                         )
                     )
@@ -47,7 +47,7 @@ public class ProductSearchService {
                 .name(request.getName())
                 .build();
 
-        repository.save(document);
+        productSearchRepository.save(document);
     }
 
 }
