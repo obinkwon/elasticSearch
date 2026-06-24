@@ -14,4 +14,9 @@ public class IndexController {
     public String index() {
         return "thymeleaf/index";
     }
+
+    @GetMapping("/save")
+    public String save() {
+        return "thymeleaf/save";
+    }
 }

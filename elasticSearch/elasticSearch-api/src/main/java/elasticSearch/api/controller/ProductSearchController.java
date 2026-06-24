@@ -19,7 +19,7 @@ public class ProductSearchController {
         return productSearchService.autocomplete(keyword);
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public void save(@RequestBody ProductCreateRequestDto request) {
         productSearchService.save(request);
     }

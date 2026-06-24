@@ -29,12 +29,11 @@
 </head>
 <body>
 
-<h2>검색 API 테스트</h2>
+<h2>저장 API 테스트</h2>
 
 <div>
     <input type="text" id="keyword" value="" placeholder="input keyword">
-    <button onclick="callApi()">GET 호출</button>
-    <button onclick="moveSavePage()">저장 페이지 이동</button>
+    <button onclick="callApi()">POST 호출</button>
 </div>
 
 <br>
@@ -43,7 +42,7 @@
 
 <script>
     async function callApi() {
-        const url = '/api/search/autocomplete';
+        const url = '/api/search/save';
         const keyword = document.getElementById("keyword").value;
 
         try {
@@ -56,10 +55,6 @@
         } catch (e) {
             document.getElementById("result").value = e;
         }
-    }
-
-    function moveSavePage() {
-        location.href='/save';
     }
 </script>
 

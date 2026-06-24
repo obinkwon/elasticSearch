@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
+import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,5 +51,20 @@ public class ProductSearchService {
 
         productSearchRepository.save(document);
     }
+
+    public void bulkSave(List<ProductDocument> products) {
+
+        List<IndexQuery> queries = products.stream()
+                .map(product -> {
+                    IndexQuery query = new IndexQuery();
+                    query.setId(product.getId());
+                    query.setObject(product);
+                    return query;
+                })
+                .toList();
+
+        elasticsearchOperations.bulkIndex(queries, IndexCoordinates.of("products"));
+    }
+
 
 }
