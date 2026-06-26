@@ -8,11 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
-import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
-import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -24,15 +23,15 @@ public class ProductSearchService {
     public List<String> autocomplete(String keyword) {
 
         NativeQuery query = NativeQuery.builder()
-                .withQuery(Query.of(q -> q
-                        .match(m -> m
-                                .field("name")
-                                .query(keyword)
-                        )
-                    )
+            .withQuery(q -> q
+                .multiMatch(mm -> mm
+                    .query(keyword)
+                    .fields("name", "name._2gram", "name._3gram")
+                    .type(co.elastic.clients.elasticsearch._types.query_dsl.TextQueryType.BoolPrefix)
                 )
-                .withMaxResults(10)
-                .build();
+            )
+            .withMaxResults(10)
+            .build();
 
         return elasticsearchOperations.search(query, ProductDocument.class)
                 .stream()
@@ -42,29 +41,14 @@ public class ProductSearchService {
                 .toList();
     }
 
-    public void save(ProductCreateRequestDto request) {
+    public void save(ProductCreateRequestDto productCreateRequestDto) {
 
         ProductDocument document = ProductDocument.builder()
-                .id(request.getId())
-                .name(request.getName())
+                .id(UUID.randomUUID().toString())
+                .name(productCreateRequestDto.getName())
                 .build();
 
         productSearchRepository.save(document);
     }
-
-    public void bulkSave(List<ProductDocument> products) {
-
-        List<IndexQuery> queries = products.stream()
-                .map(product -> {
-                    IndexQuery query = new IndexQuery();
-                    query.setId(product.getId());
-                    query.setObject(product);
-                    return query;
-                })
-                .toList();
-
-        elasticsearchOperations.bulkIndex(queries, IndexCoordinates.of("products"));
-    }
-
 
 }

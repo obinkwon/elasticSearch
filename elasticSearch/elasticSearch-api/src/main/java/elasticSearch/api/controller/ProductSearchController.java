@@ -20,7 +20,7 @@ public class ProductSearchController {
     }
 
     @PostMapping("/save")
-    public void save(@RequestBody ProductCreateRequestDto request) {
-        productSearchService.save(request);
+    public void save(@RequestBody ProductCreateRequestDto productCreateRequestDto) {
+        productSearchService.save(productCreateRequestDto);
     }
 }

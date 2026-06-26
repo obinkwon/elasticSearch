@@ -34,6 +34,7 @@
 <div>
     <input type="text" id="keyword" value="" placeholder="input keyword">
     <button onclick="callApi()">POST 호출</button>
+    <button onclick="moveSearchPage()">저장 페이지 이동</button>
 </div>
 
 <br>
@@ -46,15 +47,26 @@
         const keyword = document.getElementById("keyword").value;
 
         try {
-            const response = await fetch(url + "?keyword="+ keyword);
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name: keyword
+                })
+            });
 
             const text = await response.text();
 
-            document.getElementById("result").value =
-                `STATUS : ${response.status}\n\n${text}`;
+            document.getElementById("result").value = `STATUS : ${response.status}\n\n${text}`;
         } catch (e) {
             document.getElementById("result").value = e;
         }
+    }
+
+    function moveSearchPage() {
+        location.href='/';
     }
 </script>
 
