@@ -1,6 +1,5 @@
 package elasticSearch.service;
 
-import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import elasticSearch.document.ProductDocument;
 import elasticSearch.dto.ProductCreateRequestDto;
 import elasticSearch.repository.ProductSearchRepository;
@@ -49,6 +48,18 @@ public class ProductSearchService {
                 .build();
 
         productSearchRepository.save(document);
+    }
+
+    public void bulkSave(List<String> names) {
+
+        List<ProductDocument> documents = names.stream()
+                .map(name -> ProductDocument.builder()
+                        .id(UUID.randomUUID().toString())
+                        .name(name)
+                        .build())
+                .toList();
+
+        productSearchRepository.saveAll(documents);
     }
 
 }
